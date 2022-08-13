@@ -1,14 +1,17 @@
 import React, { Component, useContext } from "react";
+import { Link } from "react-router-dom";
 
 // Components
 import Cart from "./shared/Cart";
 
-//Context
-import { cartContext } from "../context/CartContextProvider";
-import { Link } from "react-router-dom";
+//redux
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { clear, checkout } from "../redux/cart/cartAction";
 
 const ShopCart = () => {
-  const { state, dispatch } = useContext(cartContext);
+  const state = useSelector((state) => state.cartState);
+  const dispatch = useDispatch();
   return (
     <div className="container">
       <div className="ShopCart-container">
@@ -31,14 +34,14 @@ const ShopCart = () => {
               <div>
                 <button
                   onClick={() => {
-                    dispatch({ type: "CLEAR" });
+                    dispatch(clear());
                   }}
                 >
                   Clear
                 </button>
                 <button
                   onClick={() => {
-                    dispatch({ type: "CHECKOUT" });
+                    dispatch(checkout());
                   }}
                 >
                   Checkout

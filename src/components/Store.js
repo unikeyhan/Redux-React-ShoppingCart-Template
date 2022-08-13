@@ -1,22 +1,35 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import spinner from "./assets/spinner.gif";
 
 //Components
 import Products from "./shared/Products";
 
-//Context
-import { productsContext } from "../context/ProductsContextProvider";
+//redux
+import { fetchProducts } from "../redux/products/productsActions";
 
 const Store = () => {
-  const products = useContext(productsContext);
+  const dispatch = useDispatch();
+  const productState = useSelector((state) => state.productsState);
+
+  useEffect(() => {
+    if (!productState.products.length) dispatch(fetchProducts());
+  }, []);
+
   return (
     <div className="store-container container">
       <div className="row">
-        {products.map((product) => (
-          <Products key={product.id} productData={product} />
-        ))}
+        {productState.loading ? (
+          <img src={spinner} className="w-50 m-auto" alt="spinner" />
+        ) : productState.error ? (
+          <p>somthing went wrong</p>
+        ) : (
+          productState.products.map((product) => (
+            <Products key={product.id} productData={product} />
+          ))
+        )}
       </div>
     </div>
   );
 };
-
 export default Store;

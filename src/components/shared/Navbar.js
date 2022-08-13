@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 //Context
-import { cartContext } from "../../context/CartContextProvider";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  const { state } = useContext(cartContext);
+  const state = useSelector((state) => state.cartState);
   const [stateItemsCounter, SetstateItemsCounter] = useState();
   useEffect(() => {
     SetstateItemsCounter(state.itemsCounter);
